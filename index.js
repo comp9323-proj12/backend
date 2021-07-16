@@ -2,7 +2,7 @@ const Koa = require('koa');
 const mongoose = require('mongoose');
 const bodyParser = require('koa-bodyparser');
 const app = new Koa();
-const routers = require('./routes'); 
+const routers = require('./routes');
 const config = require('./config');
 
 app.use(bodyParser());
