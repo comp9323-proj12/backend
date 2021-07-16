@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const ArticleSchema = new Schema({
+const VideoSchema = new Schema({
 	title: {
 		type: String,
 		required: true
@@ -8,21 +8,22 @@ const ArticleSchema = new Schema({
 	fileFormat: {
 		type: String,
 		required: true,
-		enum: ['pdf', 'txt', 'doc', 'docx'] // 这里还需要再改 或许需要在线预览api
-	},
-	text: {
-		type: String,
-		required: false
+		enum: ['mp4', 'mkv', 'avi'] // 这里不一定需要 或许需要在线播放api
 	},
 	author: {
-		type: Schema.Types.ObjectId,
-		required: true,
+        type: Schema.Types.ObjectId,
+		required: false,
 		ref: 'User'
 	},
 	createTime: {
 		type: Date,
 		default: Date.now
 	},
+    //TODO: add video schema type(api)
+    recap:{
+        type: String,
+		required: false
+    },
 	tags: {
 		type: [{type:Schema.Types.ObjectId, ref: 'Tag'}],
 		required: false
@@ -32,4 +33,4 @@ const ArticleSchema = new Schema({
 		required: false
 	}
 });
-module.exports = mongoose.model('Article',ArticleSchema);
+module.exports = mongoose.model('Video', VideoSchema);
