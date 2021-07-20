@@ -25,7 +25,7 @@ const VideoSchema = new Schema({
 		required: false
     },
 	tags: {
-		type: [{type:Schema.Types.ObjectId, ref: 'Tag'}],
+		type: [{type:Schema.Types.ObjectId, ref: 'videoTag'}],
 		required: false
 	},
 	question: {

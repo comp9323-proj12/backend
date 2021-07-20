@@ -3,8 +3,8 @@ const Schema = mongoose.Schema;
 
 const replySchema = new Schema({
     text:{
-      type:String,
-      required:true
+    	type:String,
+    	required:true
     },
     whoPost: {
 		type: Schema.Types.ObjectId,
@@ -15,11 +15,11 @@ const replySchema = new Schema({
 		type: Date,
 		default: Date.now
 	},
-    toWho: {
-		type: Schema.Types.ObjectId,
-		required: true,
-		ref: 'User'
-    }
+    // toWho: {
+	// 	type: Schema.Types.ObjectId,
+	// 	required: true,
+	// 	ref: 'User'
+    // }
   });
 const QuestionSchema = new Schema({
 	text: {
@@ -49,6 +49,11 @@ const QuestionSchema = new Schema({
 		required: false,
 		ref: 'Video'
     },
-    replies:[replySchema]
+    replies: {
+		type: [replySchema],
+		required: false
+	}
+
 });
+module.exports = mongoose.model('Reply', replySchema);
 module.exports = mongoose.model('Question', QuestionSchema);
