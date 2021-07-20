@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 const UserSchema = new Schema({
     name: {
         type: String,
-        required: true
+        required: true,
     },
     email: {
         type: String,
@@ -45,8 +45,19 @@ const UserSchema = new Schema({
     career: {
         type: String,
         required: false
-        
     },
     //TODO: add photo schema type
+    article: {
+        type: [{type:Schema.Types.ObjectId, ref: 'Article'}],
+        required: false
+    },
+    video: {
+        type: [{type:Schema.Types.ObjectId, ref: 'Video'}],
+        required: false
+    },
+    meeting: {
+        type: [{type:Schema.Types.ObjectId, ref: 'Meeting'}],
+        required: false
+    }
 });
 module.exports = mongoose.model('User', UserSchema);

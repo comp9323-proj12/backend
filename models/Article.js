@@ -24,7 +24,7 @@ const ArticleSchema = new Schema({
 		default: Date.now
 	},
 	tags: {
-		type: [{type:Schema.Types.ObjectId, ref: 'Tag'}],
+		type: [{type:Schema.Types.ObjectId, ref: 'articleTag'}],
 		required: false
 	},
 	question: {
