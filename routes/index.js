@@ -4,8 +4,10 @@ const meeting = require("./meeting");
 const routers = router
 
   // Article
-  .get("/articles", article.list)
-  .post("/articles", article.create)
+  .get('/articles', article.list)
+  .get('/articles/:id', article.get)
+  .post('/articles', article.create)
+  .delete('/articles/delete/:id', article.delete)
 
   //Meeting
   .get("/meetings", meeting.list)
