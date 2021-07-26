@@ -35,14 +35,20 @@ module.exports = {
 	getResearchers: async (ctx) => {
 		console.log("here123")
 		const result = await User
-			.find({
-				// $or: [
-				// 	{ $where: 'this.articles.length > 0' },
-				// 	{ $where: 'this.videos.length > 0' },
-				// 	{ $where: 'this.meetings.length > 0' },
-				// ]
-			})
+			.find(
+			{
+				$or : [
+					{ $where: "this.articles.length > 0" },
+					{ $where: "this.videos.length > 0" },
+					{ $where: "this.meetings.length > 0" }
+				]
+			}			
+			)
+		const sortedResult = result.sort(function(a, b){
+			return (b.articles.length+b.videos.length+b.meetings.length)-(a.articles.length+a.videos.length+a.meetings.length)
+		});
+		
 		ctx.response.status = 200;
-		ctx.response.body = {researchers: result};
+		ctx.response.body = {researchers: sortedResult};
 	}
 };
