@@ -7,20 +7,25 @@ const UserSchema = new Schema({
     },
     email: {
         type: String,
-        required: true
+        required: true,
+        unique: true
+    },
+    password: {
+        type: String,
+        required: true,
     },
     creatTime: {
-		type: Date,
-		default: Date.now
+        type: Date,
+        default: Date.now
     },
     dob: { //date of birth
         type: Date,
         required: false
     },
-    gender:  {
+    gender: {
         type: String,
-        default: 'Unkown',
-        enum: ['Male','Female','Unkown']
+        default: 'Unknown',
+        enum: ['Male', 'Female', 'Unknown']
     },
     country: {
         type: String,
@@ -47,16 +52,16 @@ const UserSchema = new Schema({
         required: false
     },
     //TODO: add photo schema type
-    article: {
-        type: [{type:Schema.Types.ObjectId, ref: 'Article'}],
+    articles: {
+        type: [{ type: Schema.Types.ObjectId, ref: 'Article' }],
         required: false
     },
-    video: {
-        type: [{type:Schema.Types.ObjectId, ref: 'Video'}],
+    videos: {
+        type: [{ type: Schema.Types.ObjectId, ref: 'Video' }],
         required: false
     },
-    meeting: {
-        type: [{type:Schema.Types.ObjectId, ref: 'Meeting'}],
+    meetings: {
+        type: [{ type: Schema.Types.ObjectId, ref: 'Meeting' }],
         required: false
     }
 });

@@ -16,6 +16,27 @@ module.exports = {
     // ctx.body = article;
     ctx.response.status = 200;
   },
+  /**
+     * @swagger
+     * /meetings/user/${instructorId}:
+     *  get:
+     *    tags:
+     *      - "Article"
+     *    summary: Return a list of meetings by instructor id
+     *    description: Use to request articles by user Id
+     *    produces:
+     *      - application/json
+     *    responses:
+     *      '200':
+     *        description: OK
+     */
+  getMeetingsByUser: async (ctx) => {
+    const instructor = ctx.request.params.id;
+    console.log("instructor", instructor);
+    const data = await Meeting.find({ instructor });
+    ctx.response.status = 200;
+    ctx.body = data;
+  },
 
   //delete a meeting
   delete: async (ctx) => {
@@ -25,14 +46,6 @@ module.exports = {
       ctx.response.status = 404;
     } else {
       await Meeting.deleteOne({ _id })
-        .then(() => {
-          ctx.body = {
-            message: "Delete Successfully",
-          };
-        })
-        .catch((err) => {
-          ctx.body = err;
-        });
     }
   },
 

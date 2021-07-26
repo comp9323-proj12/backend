@@ -15,13 +15,14 @@ const MeetingSchema = new Schema({
     type: String,
     required: true,
   },
-  notice: {
+  // TODO:notice是不是description?
+  description: {
     //发布类似简短的公告
     type: String,
     required: true,
   },
   startTime: {
-    type: String, //数据类型改变
+    type: Date, //数据类型改变
     required: true,
   },
   creatTime: {

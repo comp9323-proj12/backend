@@ -7,11 +7,15 @@ const VideoSchema = new Schema({
 	},
 	fileFormat: {
 		type: String,
-		required: true,
+		required: false,
 		enum: ['mp4', 'mkv', 'avi'] // 这里不一定需要 或许需要在线播放api
 	},
+	link: {
+		type: String,
+		required: true,
+	},
 	author: {
-        type: Schema.Types.ObjectId,
+		type: Schema.Types.ObjectId,
 		required: false,
 		ref: 'User'
 	},
@@ -19,17 +23,19 @@ const VideoSchema = new Schema({
 		type: Date,
 		default: Date.now
 	},
-    //TODO: add video schema type(api)
-    recap:{
-        type: String,
-		required: false
-    },
-	tags: {
-		type: [{type:Schema.Types.ObjectId, ref: 'videoTag'}],
+	//TODO: add video schema type(api) recap是啥
+	recap: {
+		type: String,
 		required: false
 	},
+	description: {
+		type: String
+	},
+	tags: {
+		type: [String]
+	},
 	question: {
-		type: [{type:Schema.Types.ObjectId, ref: 'Question'}],
+		type: [{ type: Schema.Types.ObjectId, ref: 'Question' }],
 		required: false
 	}
 });

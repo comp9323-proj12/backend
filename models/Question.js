@@ -15,6 +15,11 @@ const replySchema = new Schema({
 		type: Date,
 		default: Date.now
 	},
+	question: {
+		type: Schema.Types.ObjectId,
+		required: true,
+		ref: 'Question'
+	}
     // toWho: {
 	// 	type: Schema.Types.ObjectId,
 	// 	required: true,
