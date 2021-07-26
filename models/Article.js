@@ -8,7 +8,8 @@ const ArticleSchema = new Schema({
 	fileFormat: {
 		type: String,
 		required: true,
-		enum: ['pdf', 'txt', 'doc', 'docx'] // 这里还需要再改 或许需要在线预览api
+		enum: ['pdf', 'txt', 'doc', 'docx'], // 这里还需要再改 或许需要在线预览api
+		default: 'txt'
 	},
 	text: {
 		type: String,
@@ -24,8 +25,7 @@ const ArticleSchema = new Schema({
 		default: Date.now
 	},
 	tags: {
-		type: [{type:Schema.Types.ObjectId, ref: 'articleTag'}],
-		required: false
+		type: [String]
 	},
 	question: {
 		type: [{type:Schema.Types.ObjectId, ref: 'Question'}],
