@@ -10,17 +10,15 @@ module.exports = {
     // ctx.response.status = 200;
 
     console.log(currentUser);
+    ctx.response.status = 200;
     if (isEmpty(currentUser)) {
-      ctx.response.status = 401;
       ctx.response.body = {};
     } else {
       const res = currentUser.comparePassword(password, currentUser.password);
       console.log(res);
       if (res === true) {
-        ctx.response.status = 200;
         ctx.response.body = currentUser;
       } else {
-        ctx.response.status = 401;
         ctx.response.body = {};
       }
     }
