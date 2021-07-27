@@ -3,14 +3,10 @@ const Meeting = require("../models/Meeting");
 module.exports = {
   //create a new meeting
   create: async (ctx) => {
-    const { title, link, notice, startTime, currentID } = ctx.request.body;
+    console.log('meetingctx.request.body;', ctx.request.body)
     // const { text } = ctx.request.body;
     const meeting = new Meeting({
-      title,
-      link,
-      notice,
-      startTime,
-      instructor: currentID,
+      ...ctx.request.body
     });
     await meeting.save();
     // ctx.body = article;
@@ -46,31 +42,25 @@ module.exports = {
       ctx.response.status = 404;
     } else {
       await Meeting.deleteOne({ _id })
+      ctx.response.status = 200
     }
   },
 
   //edit meeting details
   edit: async (ctx) => {
     let { _id } = ctx.request.params;
-    console.log(_id);
+    console.log("meeting_id",_id);
     let meeting = await Meeting.findOne({ _id });
     if (!meeting) {
       ctx.response.status = 404;
     } else {
-      const newBody = ({ title, link, notice, startTime, instructor } =
-        ctx.request.body);
-      await Meeting.findOneAndUpdate({ _id }, newBody, {
+      const newBody = ctx.request.body;
+      const data = await Meeting.findOneAndUpdate({ _id }, newBody, {
         new: true,
         runValidators: true,
       })
-        .then(() => {
-          ctx.body = {
-            message: "Updata Successfully",
-          };
-        })
-        .catch((err) => {
-          ctx.body = err;
-        });
+      console.log("datdatadatadataa",data)
+      ctx.response.status = 200;
     }
   },
 
@@ -89,22 +79,6 @@ module.exports = {
     const { _id } = ctx.request.params;
     const data = await Meeting.find({ _id });
     ctx.body = data;
-  },
-  //enroll a meeting
-  enroll: async (ctx) => {
-    let { _id } = ctx.request.params;
-    let { currentID } = ctx.request.body;
-    console.log(_id);
-    let meeting = await Meeting.findOne({ _id });
-    if (!meeting) {
-      ctx.response.status = 404;
-    } else {
-      meeting.students.push(currentID);
-      await meeting.save();
-      ctx.body = {
-        message: "Enrolled successfully",
-      };
-    }
   },
   //get all meetings registered by this student
   getList: async (ctx) => {

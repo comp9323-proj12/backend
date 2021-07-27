@@ -31,18 +31,18 @@ module.exports = {
 
 	edit: async (ctx) => {
 		let { _id } = ctx.request.params;
-		console.log(_id);
+		console.log("_i_id_id_id_id_id_id_id_idd", _id);
 		let video = await Video.findOne({ _id });
 		if (!video) {
 			ctx.response.status = 404;
 		} else {
-			const newBody = ({ title, link, description, author } =
-				ctx.request.body);
+			const newBody = ctx.request.body;
 			await Video.findOneAndUpdate({ _id }, newBody, {
 				new: true,
 				runValidators: true,
 			})
 		}
+		ctx.response.status = 200;
 	},
 
 	/**
@@ -70,7 +70,8 @@ module.exports = {
 	delete: async (ctx) => {
 		const { id } = ctx.request.params
 		console.log('Id => ', id)
-		const VideoFindResp = await Video.findOne({ _id: id })
+		const videoFindResp = await Video.findOne({ _id: id })
+		console.log("videoFindRespvideoFindResp", videoFindResp)
 		if (videoFindResp === null) {
 			ctx.response.body = { 'msg': 'video not found' }
 			ctx.response.status = 404

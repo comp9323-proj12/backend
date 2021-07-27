@@ -17,7 +17,6 @@ const routers = router
   //Meeting
   .get("/meetings", meeting.list)
   .post("/meetings", meeting.create)
-  .post("/meetings/enroll/:_id", meeting.enroll)
   .delete("/meetings/:_id", meeting.delete)
   .patch("/meetings/:_id", meeting.edit)
   .get("/meetings/findByName/:name", meeting.searchByName)
@@ -29,7 +28,7 @@ const routers = router
   .post('/videos', video.create)
   .patch('/videos/:_id', video.edit)
   .get('/videos/user/:id', video.getVideosByUser)
-  .delete("/videos/delete/:id", meeting.delete)
+  .delete("/videos/delete/:id", video.delete)
   //User
   .post('/users/login', user.login)
   .post('/users/register', user.register)
