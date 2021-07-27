@@ -51,7 +51,10 @@ const UserSchema = new Schema({
         type: String,
         required: false
     },
-    //TODO: add photo schema type
+    // avatar:  {
+    //     data: Buffer,
+    //     contentType: String
+    // },
     articles: {
         type: [{ type: Schema.Types.ObjectId, ref: 'Article' }],
         required: false

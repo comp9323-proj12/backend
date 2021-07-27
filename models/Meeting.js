@@ -19,7 +19,6 @@ const MeetingSchema = new Schema({
   description: {
     //发布类似简短的公告
     type: String,
-    required: true,
   },
   startTime: {
     type: Date, //数据类型改变
@@ -34,5 +33,8 @@ const MeetingSchema = new Schema({
     type: [String],
     default: [],
   },
+  tags: {
+    type: [String]
+  }
 });
 module.exports = mongoose.model("Meeting", MeetingSchema);
