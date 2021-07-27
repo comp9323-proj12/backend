@@ -62,7 +62,7 @@ module.exports = {
 	getVideosByUser: async (ctx) => {
 		const author = ctx.request.params.id;
 		console.log("authorvideo", author);
-		const data = await Video.find({ author }).populate('question');
+		const data = await Video.find({ author }).sort('-createTime');
 		ctx.response.status = 200;
 		ctx.body = data
 	},
