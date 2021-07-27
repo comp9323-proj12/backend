@@ -1,31 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const replySchema = new Schema({
-    text:{
-    	type:String,
-    	required:true
-    },
-    whoPost: {
-		type: Schema.Types.ObjectId,
-		required: true,
-		ref: 'User'
-	},
-	createTime: {
-		type: Date,
-		default: Date.now
-	},
-	question: {
-		type: Schema.Types.ObjectId,
-		required: true,
-		ref: 'Question'
-	}
-    // toWho: {
-	// 	type: Schema.Types.ObjectId,
-	// 	required: true,
-	// 	ref: 'User'
-    // }
-  });
 const QuestionSchema = new Schema({
 	text: {
 		type: String,
@@ -55,10 +30,9 @@ const QuestionSchema = new Schema({
 		ref: 'Video'
     },
     replies: {
-		type: [replySchema],
-		required: false
+		type: [{ type: Schema.Types.ObjectId, ref: 'Reply' }],
+		required: false,
 	}
 
 });
-module.exports = mongoose.model('Reply', replySchema);
 module.exports = mongoose.model('Question', QuestionSchema);

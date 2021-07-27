@@ -66,7 +66,7 @@ module.exports = {
 	getArticlesByUser: async (ctx) => {
 		const author = ctx.request.params.id;
 		console.log("author", author);
-		const data = await Article.find({ author }).populate('question');
+		const data = await Article.find({ author }).sort('-createTime');
 		ctx.response.status = 200;
 		ctx.body = data
 	},
@@ -115,7 +115,7 @@ module.exports = {
 		const { id } = ctx.request.params
 		const data = await Article.findOne({ _id: id })
 			.populate('author', ['name', 'email'])
-			.populate({ path: 'question', populate: { path: reply } })
+			.populate({ path: 'question', populate: { path: replies } })
 		if (data === null) {
 			ctx.response.status = 404;
 			ctx.body = { 'msg': 'article not found' }

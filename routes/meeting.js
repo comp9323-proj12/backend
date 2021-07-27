@@ -33,7 +33,7 @@ module.exports = {
   getMeetingsByUser: async (ctx) => {
     const instructor = ctx.request.params.id;
     console.log("instructor", instructor);
-    const data = await Meeting.find({ instructor });
+    const data = await Meeting.find({ instructor }).sort('-createTime');
     ctx.response.status = 200;
     ctx.body = data;
   },

@@ -35,6 +35,9 @@ const routers = router
   .post('/users/register', user.register)
   .get('/users/researchers', user.getResearchers)
   // Question
-  .post('/question/reply', question.createReply)
-  .post('/question', question.createQuestion)
+  .post('/questions/reply', question.createReply)
+  .post('/questions', question.createQuestion)
+  .get('/questions/article/:id', question.getQuestionsByArticleId)
+  .get('/questions/video/:id', question.getQuestionsByVideoId)
+
 module.exports = routers;
