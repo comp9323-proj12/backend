@@ -14,7 +14,7 @@ module.exports = {
 		ctx.response.status = 200;
 	},
 	createQuestion: async (ctx) => {
-		const { whichArticle } = ctx.request.body;
+		const { whichArticle, whichVideo } = ctx.request.body;
 		await Question.create({
 			...ctx.request.body
 		});
