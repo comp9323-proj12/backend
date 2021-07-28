@@ -45,6 +45,29 @@ module.exports = {
 		ctx.response.status = 200;
 	},
 
+	list: async (ctx) => {
+		const { subCategory, value } = ctx.request.query;
+		console.log("ctx.request.query", ctx.request.query);
+		let data = [];
+		if (subCategory == 'title') {
+			data = await Video.find({ title: new RegExp(value) })
+				.populate('author')
+				.populate({ path: 'question', populate: { path: 'replies' } })
+		}
+		else if (subCategory === "tag") {
+			data = await Video.find({ tags: new RegExp(value) })
+				.populate('author')
+				.populate({ path: 'question', populate: { path: 'replies' } })
+		}
+		ctx.response.status = 200;
+		if (!data) {
+			ctx.body = []
+		}
+		else {
+			ctx.body = data
+		}
+	},
+
 	/**
 	 * @swagger
 	 * /videos/user/${userId}:

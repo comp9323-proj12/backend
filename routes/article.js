@@ -1,6 +1,7 @@
 const Article = require('../models/Article');
 const User = require('../models/User');
 const Question = require('../models/Question');
+const Reply = require("../models/Reply");
 
 module.exports = {
 
@@ -87,14 +88,26 @@ module.exports = {
 		 */
 
 	list: async (ctx) => {
-		const data = await Article.find()
-		if (data === null) {
-			ctx.response.status = 404;
-			ctx.body = { 'msg': 'No articles in the database' }
-			return
+		const { subCategory, value } = ctx.request.query;
+		console.log("ctx.request.query", ctx.request.query);
+		let data = [];
+		if (subCategory == 'title') {
+			data = await Article.find({ title: new RegExp(value) })
+				.populate('author')
+				.populate({ path: 'question', populate: { path: 'replies' } })
+		}
+		else if (subCategory === "tag") {
+			data = await Article.find({ tags: new RegExp(value) })
+				.populate('author')
+				.populate({ path: 'question', populate: { path: 'replies' } })
 		}
 		ctx.response.status = 200;
-		ctx.body = data
+		if (!data) {
+			ctx.body = []
+		}
+		else {
+			ctx.body = data
+		}
 	},
 	/**
 	 * @swagger
@@ -115,7 +128,7 @@ module.exports = {
 		const { id } = ctx.request.params
 		const data = await Article.findOne({ _id: id })
 			.populate('author', ['name', 'email'])
-			.populate({ path: 'question', populate: { path: replies } })
+			.populate({ path: 'question', populate: { path: 'replies' } })
 		if (data === null) {
 			ctx.response.status = 404;
 			ctx.body = { 'msg': 'article not found' }
