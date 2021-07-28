@@ -28,6 +28,7 @@ const routers = router
   .post('/videos', video.create)
   .patch('/videos/:_id', video.edit)
   .get('/videos/user/:id', video.getVideosByUser)
+  .get('/videos', video.list)
   .delete("/videos/delete/:id", video.delete)
   //User
   .post('/users/login', user.login)

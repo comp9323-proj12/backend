@@ -49,7 +49,7 @@ module.exports = {
   //edit meeting details
   edit: async (ctx) => {
     let { _id } = ctx.request.params;
-    console.log("meeting_id",_id);
+    console.log("meeting_id", _id);
     let meeting = await Meeting.findOne({ _id });
     if (!meeting) {
       ctx.response.status = 404;
@@ -59,15 +59,30 @@ module.exports = {
         new: true,
         runValidators: true,
       })
-      console.log("datdatadatadataa",data)
+      console.log("datdatadatadataa", data)
       ctx.response.status = 200;
     }
   },
 
   list: async (ctx) => {
-    const data = await Meeting.find();
+    const { subCategory, value } = ctx.request.query;
+    console.log("ctx.request.query", ctx.request.query);
+    let data = [];
+    if (subCategory == 'title') {
+      data = await Meeting.find({ title: new RegExp(value) })
+        .populate('instructor')
+    }
+    else if (subCategory === "tag") {
+      data = await Meeting.find({ tags: new RegExp(value) })
+        .populate('instructor')
+    }
     ctx.response.status = 200;
-    ctx.body = data;
+    if (!data) {
+      ctx.body = []
+    }
+    else {
+      ctx.body = data
+    }
   },
   // search the meetings
   searchByName: async (ctx) => {
