@@ -37,11 +37,11 @@ module.exports = {
 		const result = await User
 			.find(
 			{
-				$or : [
-					{ $where: "this.articles.length > 0" },
-					{ $where: "this.videos.length > 0" },
-					{ $where: "this.meetings.length > 0" }
-				]
+				// $or : [
+				// 	{ $where: "this.articles.length > 0" },
+				// 	{ $where: "this.videos.length > 0" },
+				// 	{ $where: "this.meetings.length > 0" }
+				// ]
 			}			
 			)
 		const sortedResult = result.sort(function(a, b){
