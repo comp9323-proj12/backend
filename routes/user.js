@@ -3,7 +3,6 @@ const { isEmpty } = require('lodash');
 
 module.exports = {
 	login: async (ctx) => {
-		console.log("ctx.request.body", ctx.request.body)
 		const { email, password } = ctx.request.body;
 		const currentUser = await User.findOne({ email, password })
 		ctx.response.body = currentUser ? currentUser : {};
@@ -11,18 +10,15 @@ module.exports = {
 	},
 
 	register: async (ctx) => {
-		console.log("ctx.request.bodyregis", ctx.request.body)
 		const { body } = ctx.request;
 		const { email } = body;
 		const user = await User.findOne({ email })
-		console.log("user", user)
 		if (!isEmpty(user)) {
 			ctx.response.body = {
 				registerFlag: false
 			};
 		}
 		else {
-			console.log("here");
 			const newUser = new User(body);
 			newUser.save();
 			ctx.response.body = {
@@ -33,7 +29,6 @@ module.exports = {
 	},
 
 	getResearchers: async (ctx) => {
-		console.log("here123")
 		const result = await User
 			.find(
 			{

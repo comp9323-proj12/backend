@@ -3,7 +3,6 @@ const Meeting = require("../models/Meeting");
 module.exports = {
   //create a new meeting
   create: async (ctx) => {
-    console.log('meetingctx.request.body;', ctx.request.body)
     // const { text } = ctx.request.body;
     const meeting = new Meeting({
       ...ctx.request.body
@@ -28,7 +27,6 @@ module.exports = {
      */
   getMeetingsByUser: async (ctx) => {
     const instructor = ctx.request.params.id;
-    console.log("instructor", instructor);
     const data = await Meeting.find({ instructor }).sort('-createTime');
     ctx.response.status = 200;
     ctx.body = data;
@@ -49,7 +47,6 @@ module.exports = {
   //edit meeting details
   edit: async (ctx) => {
     let { _id } = ctx.request.params;
-    console.log("meeting_id", _id);
     let meeting = await Meeting.findOne({ _id });
     if (!meeting) {
       ctx.response.status = 404;
@@ -59,14 +56,12 @@ module.exports = {
         new: true,
         runValidators: true,
       })
-      console.log("datdatadatadataa", data)
       ctx.response.status = 200;
     }
   },
 
   list: async (ctx) => {
     const { subCategory, value } = ctx.request.query;
-    console.log("ctx.request.query", ctx.request.query);
     let data = [];
     if (subCategory == 'title') {
       data = await Meeting.find({ title: new RegExp(value) })
@@ -98,23 +93,18 @@ module.exports = {
   //get all meetings registered by this student
   getList: async (ctx) => {
     let { userID } = ctx.request.params;
-    console.log("coming to getList try part");
-    console.log(userID);
     const data = await Meeting.find({ students: userID }).populate(
       "instructor",
       ["name"]
     );
     ctx.response.status = 200;
     ctx.body = data;
-    console.log("finalResp => ", data);
   },
 
   //get all meetings posted by this student
   getPostList: async (ctx) => {
     let { userID } = ctx.request.params;
-    console.log("coming to getPostList");
     const data = await Meeting.find({ instructor: userID });
-    console.log("final postlist data =>", data);
     ctx.response.status = 200;
     ctx.body = data;
   },

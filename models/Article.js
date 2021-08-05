@@ -30,6 +30,9 @@ const ArticleSchema = new Schema({
 	question: {
 		type: [{type:Schema.Types.ObjectId, ref: 'Question'}],
 		required: false
+	},
+	like: {
+		type: [String]
 	}
 });
 module.exports = mongoose.model('Article',ArticleSchema);

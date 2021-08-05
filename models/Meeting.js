@@ -11,11 +11,13 @@ const MeetingSchema = new Schema({
     type: String,
     required: true,
   },
+  like: {
+		type: [String]
+	},
   link: {
     type: String,
     required: true,
   },
-  // TODO:notice是不是description?
   description: {
     //发布类似简短的公告
     type: String,
