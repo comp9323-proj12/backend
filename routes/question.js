@@ -5,11 +5,9 @@ const { isEmpty } = require('lodash');
 module.exports = {
 	createReply: async (ctx) => {
 		const { question } = ctx.request.body;
-		console.log("ctx.request.body question", ctx.request.body);
 		const newReply = await Reply.create({
 			...ctx.request.body
 		});
-		console.log('newReplu', newReply)
 		await Question.updateOne({ _id: question }, { $push: { replies: newReply._id } })
 		ctx.response.status = 200;
 	},

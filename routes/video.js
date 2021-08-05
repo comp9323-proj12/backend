@@ -22,7 +22,6 @@ module.exports = {
 	 */
 
 	create: async (ctx) => {
-		console.log("ctx.request.body", ctx.request.body);
 		await Video.create({
 			...ctx.request.body
 		});
@@ -31,7 +30,6 @@ module.exports = {
 
 	edit: async (ctx) => {
 		let { _id } = ctx.request.params;
-		console.log("_i_id_id_id_id_id_id_id_idd", _id);
 		let video = await Video.findOne({ _id });
 		if (!video) {
 			ctx.response.status = 404;
@@ -47,7 +45,6 @@ module.exports = {
 
 	list: async (ctx) => {
 		const { subCategory, value } = ctx.request.query;
-		console.log("ctx.request.query", ctx.request.query);
 		let data = [];
 		if (subCategory == 'title') {
 			data = await Video.find({ title: new RegExp(value) })
@@ -84,7 +81,6 @@ module.exports = {
 	 */
 	getVideosByUser: async (ctx) => {
 		const author = ctx.request.params.id;
-		console.log("authorvideo", author);
 		const data = await Video.find({ author }).sort('-createTime');
 		ctx.response.status = 200;
 		ctx.body = data
@@ -92,26 +88,21 @@ module.exports = {
 
 	delete: async (ctx) => {
 		const { id } = ctx.request.params
-		console.log('Id => ', id)
 		const videoFindResp = await Video.findOne({ _id: id })
-		console.log("videoFindRespvideoFindResp", videoFindResp)
 		if (videoFindResp === null) {
 			ctx.response.body = { 'msg': 'video not found' }
 			ctx.response.status = 404
 			return
 		}
 		const { question } = videoFindResp
-		console.log('等待更新/删除question => ', question)
 
 		//question直接删除，不会和tag一样内容重复
 		if (question.length > 0) {
 			for (i = 0; i < question.length; i++) {
 				let questionDeleteRes = await Question.deleteOne({ _id: question[i] })
-				console.log('question删除 => ', questionDeleteRes)
 			}
 		}
 		const videoDeleteRes = await Video.deleteOne({ _id: id })
-		console.log('article删除 => ', videoDeleteRes)
 
 		ctx.response.status = 200
 	}

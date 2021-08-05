@@ -26,8 +26,6 @@ module.exports = {
 
 	create: async (ctx) => {
 		const { title, author, tags } = ctx.request.body;
-		console.log(title, author, tags);
-		console.log("ctx.request.body", ctx.request.body);
 		await Article.create({
 			...ctx.request.body
 		});
@@ -36,9 +34,7 @@ module.exports = {
 
 	edit: async (ctx) => {
 		let { _id } = ctx.request.params;
-		console.log("_id", _id);
 		let article = await Article.findOne({ _id });
-		console.log("articlearticlearticle", ctx.request.body)
 		if (!article) {
 			ctx.response.status = 404;
 		} else {
@@ -66,7 +62,6 @@ module.exports = {
 		 */
 	getArticlesByUser: async (ctx) => {
 		const author = ctx.request.params.id;
-		console.log("author", author);
 		const data = await Article.find({ author }).sort('-createTime');
 		ctx.response.status = 200;
 		ctx.body = data
@@ -89,7 +84,6 @@ module.exports = {
 
 	list: async (ctx) => {
 		const { subCategory, value } = ctx.request.query;
-		console.log("ctx.request.query", ctx.request.query);
 		let data = [];
 		if (subCategory == 'title') {
 			data = await Article.find({ title: new RegExp(value) })
@@ -140,7 +134,6 @@ module.exports = {
 
 	delete: async (ctx) => {
 		const { id } = ctx.request.params
-		console.log('Id => ', id)
 		const articleFindResp = await Article.findOne({ _id: id })
 		if (articleFindResp === null) {
 			ctx.response.body = { 'msg': 'article not found' }
@@ -148,17 +141,14 @@ module.exports = {
 			return
 		}
 		const { question } = articleFindResp
-		console.log('等待更新/删除question => ', question)
 
 		//question直接删除，不会和tag一样内容重复
 		if (question.length > 0) {
 			for (i = 0; i < question.length; i++) {
 				let questionDeleteRes = await Question.deleteOne({ _id: question[i] })
-				console.log('question删除 => ', questionDeleteRes)
 			}
 		}
 		const articleDeleteRes = await Article.deleteOne({ _id: id })
-		console.log('article删除 => ', articleDeleteRes)
 
 		ctx.response.status = 200
 	}
