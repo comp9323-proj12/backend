@@ -6,7 +6,7 @@ const user = require("./user");
 const question = require("./question");
 const routers = router
   // Landing page
-  .get('/articles', ()=>console.log("Backend deployed on Heroku, MongoDB deployed on Atlas."))
+  .get('/', ()=>console.log("Backend deployed on Heroku, MongoDB deployed on Atlas."))
 
   // Article
   .get('/articles', article.list)
