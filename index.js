@@ -11,5 +11,6 @@ app.use(bodyParser());
 mongoose.Promise = global.Promise;
 mongoose.connect(config.database);
 app.use(routers.routes());
-app.listen(4000);
-console.log('API server is on port 4000');
+app.listen(process.env.PORT || 4000, () => {
+  console.log(`sever has successfully run on port ${process.env.PORT}`);
+});
