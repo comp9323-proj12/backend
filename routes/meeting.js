@@ -1,50 +1,89 @@
 const Meeting = require("../models/Meeting");
 
 module.exports = {
-  //create a new meeting
+  /**
+   * @swagger
+   * /meetings:
+   *  post:
+   *    tags:
+   *      - "Meetings"
+   *    summary: create a new meeting
+   *    description: Use to create a new meeting
+   *    produces:
+   *      - application/json
+   *    responses:
+   *      '200':
+   *        description: OK
+   */
   create: async (ctx) => {
     // const { text } = ctx.request.body;
     const meeting = new Meeting({
-      ...ctx.request.body
+      ...ctx.request.body,
     });
     await meeting.save();
     // ctx.body = article;
     ctx.response.status = 200;
   },
   /**
-     * @swagger
-     * /meetings/user/${instructorId}:
-     *  get:
-     *    tags:
-     *      - "Article"
-     *    summary: Return a list of meetings by instructor id
-     *    description: Use to request articles by user Id
-     *    produces:
-     *      - application/json
-     *    responses:
-     *      '200':
-     *        description: OK
-     */
+   * @swagger
+   * /meetings/getpostlist/${instructorId}:
+   *  get:
+   *    tags:
+   *      - "Meetings"
+   *    summary: Return a list of meetings by instructor id
+   *    description: Use to request meetings by user Id
+   *    produces:
+   *      - application/json
+   *    responses:
+   *      '200':
+   *        description: OK
+   */
   getMeetingsByUser: async (ctx) => {
     const instructor = ctx.request.params.id;
-    const data = await Meeting.find({ instructor }).sort('-createTime');
+    const data = await Meeting.find({ instructor }).sort("-createTime");
     ctx.response.status = 200;
     ctx.body = data;
   },
 
-  //delete a meeting
+  /**
+   * @swagger
+   * /meetings/{$meetingID}:
+   *  delete:
+   *    tags:
+   *      - "Meetings"
+   *    summary: delete a meeting in database
+   *    description: Use to delete a meeting
+   *    produces:
+   *      - application/json
+   *    responses:
+   *      '200':
+   *        description: OK
+   */
   delete: async (ctx) => {
     let { _id } = ctx.request.params;
     let meeting = await Meeting.findOne({ _id });
     if (!meeting) {
       ctx.response.status = 404;
     } else {
-      await Meeting.deleteOne({ _id })
-      ctx.response.status = 200
+      await Meeting.deleteOne({ _id });
+      ctx.response.status = 200;
     }
   },
 
-  //edit meeting details
+  /**
+   * @swagger
+   * /meetings/${meetingID}:
+   *  patch:
+   *    tags:
+   *      - "Meetings"
+   *    summary: edit a meeting by meeting's ID
+   *    description: Use to edit meetings by user Id
+   *    produces:
+   *      - application/json
+   *    responses:
+   *      '200':
+   *        description: OK
+   */
   edit: async (ctx) => {
     let { _id } = ctx.request.params;
     let meeting = await Meeting.findOne({ _id });
@@ -55,31 +94,58 @@ module.exports = {
       const data = await Meeting.findOneAndUpdate({ _id }, newBody, {
         new: true,
         runValidators: true,
-      })
+      });
       ctx.response.status = 200;
     }
   },
-
+  /**
+   * @swagger
+   * /meetings:
+   *  get:
+   *    tags:
+   *      - "Meetings"
+   *    summary: get all meetings in database
+   *    description: Use to get all meetings
+   *    produces:
+   *      - application/json
+   *    responses:
+   *      '200':
+   *        description: OK
+   */
   list: async (ctx) => {
     const { subCategory, value } = ctx.request.query;
     let data = [];
-    if (subCategory == 'title') {
-      data = await Meeting.find({ title: new RegExp(value) })
-        .populate('instructor')
-    }
-    else if (subCategory === "tag") {
-      data = await Meeting.find({ tags: new RegExp(value) })
-        .populate('instructor')
+    if (subCategory == "title") {
+      data = await Meeting.find({ title: new RegExp(value) }).populate(
+        "instructor"
+      );
+    } else if (subCategory === "tag") {
+      data = await Meeting.find({ tags: new RegExp(value) }).populate(
+        "instructor"
+      );
     }
     ctx.response.status = 200;
     if (!data) {
-      ctx.body = []
-    }
-    else {
-      ctx.body = data
+      ctx.body = [];
+    } else {
+      ctx.body = data;
     }
   },
-  // search the meetings
+
+  /**
+   * @swagger
+   * /meetings/findByName/{$meetingName}:
+   *  get:
+   *    tags:
+   *      - "Meetings"
+   *    summary: get a meeting by meeting's name
+   *    description: Use to get a meeting by name
+   *    produces:
+   *      - application/json
+   *    responses:
+   *      '200':
+   *        description: OK
+   */
   searchByName: async (ctx) => {
     const { name } = ctx.request.params;
     const data = await Meeting.find({ title: name });
@@ -90,7 +156,21 @@ module.exports = {
     const data = await Meeting.find({ _id });
     ctx.body = data;
   },
-  //get all meetings registered by this student
+
+  /**
+   * @swagger
+   * /meetings/user/{$userID}
+   *  get:
+   *    tags:
+   *      - "Meetings"
+   *    summary: get all meetings posted by this user
+   *    description: Use to get all meetings
+   *    produces:
+   *      - application/json
+   *    responses:
+   *      '200':
+   *        description: OK
+   */
   getList: async (ctx) => {
     let { userID } = ctx.request.params;
     const data = await Meeting.find({ students: userID }).populate(
