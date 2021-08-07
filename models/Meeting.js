@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const MeetingSchema = new Schema({
   instructor: {
-    //主讲人
+    //instructor
     type: Schema.Types.ObjectId,
     ref: "User",
     required: true,
@@ -12,18 +12,18 @@ const MeetingSchema = new Schema({
     required: true,
   },
   like: {
-		type: [String]
-	},
+    type: [String],
+  },
   link: {
     type: String,
     required: true,
   },
   description: {
-    //发布类似简短的公告
+    //post short notice
     type: String,
   },
   startTime: {
-    type: Date, //数据类型改变
+    type: Date, //change the data type from string to data
     required: true,
   },
   creatTime: {
@@ -31,17 +31,17 @@ const MeetingSchema = new Schema({
     default: Date.now,
   },
   students: {
-    //参与会议人员
+    //people who enrolled this meeting
     type: [String],
     default: [],
   },
   tags: {
-    type: [String]
+    type: [String],
   },
   category: {
-		type: String,
-		required: true,
-		enum: ['QA', 'presentation', 'others']
-	}
+    type: String,
+    required: true,
+    enum: ["QA", "presentation", "others"],
+  },
 });
 module.exports = mongoose.model("Meeting", MeetingSchema);
