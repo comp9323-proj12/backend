@@ -37,6 +37,11 @@ const MeetingSchema = new Schema({
   },
   tags: {
     type: [String]
-  }
+  },
+  category: {
+		type: String,
+		required: true,
+		enum: ['QA', 'presentation', 'others']
+	}
 });
 module.exports = mongoose.model("Meeting", MeetingSchema);

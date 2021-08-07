@@ -40,6 +40,11 @@ const VideoSchema = new Schema({
 	},
 	like: {
 		type: [String]
+	},
+	category: {
+		type: String,
+		required: true,
+		enum: ['interview', 'others', 'meeting']
 	}
 });
 module.exports = mongoose.model('Video', VideoSchema);
